@@ -46,18 +46,24 @@ public class CategoryTest {
                 .statusCode(200)
                 .body("id",Matchers.equalTo(id));
     }
-    @Test(priority=3)
-    public void TestUpdateCategory(){
-       String name="category_"+System.currentTimeMillis();
-       String image="https//google.com";
-       RestAssured.given()
-               .pathParam("id",id)
-.body(       .when()
-               .put("/categories/{id}")
-               .then()
+    @Test(priority = 3)
+    public void testUpdateCategory(){
+        String updatedName = "Updated_" +System.currentTimeMillis();
+        String updatedImage = "https://google.com";
+        Map body = Map.of(
+                "name",updatedName,
+                "image",updatedImage
+        );
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .pathParam("id",id)
+                .body(body)
+                .when()
+                .put("/categories/{id}\n")
+                .then()
                 .log().all()
                 .statusCode(200)
-                .body("id",Matchers.equalTo(name));
+                .body("name",Matchers.equalTo(updatedName));
     }
 }
 
